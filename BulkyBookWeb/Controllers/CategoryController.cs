@@ -48,8 +48,8 @@ namespace BulkyBookWeb.Controllers
             }
            if(ModelState.IsValid)
             {
-                //dbContext.Categories.Add(obj);
-                //dbContext.SaveChanges();
+                dbContext.Categories.Add(obj);
+                dbContext.SaveChanges();
                 return RedirectToAction("Index");
 
             }
@@ -61,6 +61,69 @@ namespace BulkyBookWeb.Controllers
             return View(obj);
         }
 
+        public IActionResult Edit(int? id)
+        {
+            Console.WriteLine("1here");
+            if(id == null || id == 0)
+            {
+                return NotFound();
+            }
+
+            var categoryObj = dbContext.Categories.Find(id);
+            return View(categoryObj);
+        }
+
+        // PUT: /<controller>/
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(Category obj)
+        {
+            if(obj.Name == obj.DisplayOrder.ToString())
+            {
+                ModelState.AddModelError("name", "Display Order cannot match the name");
+            }
+           if(ModelState.IsValid)
+            {
+                dbContext.Categories.Update(obj);
+                dbContext.SaveChanges();
+                return RedirectToAction("Index");
+
+            }
+            else
+            {
+                Console.WriteLine("invalid");
+            }
+            Console.WriteLine("5here");
+            return View(obj);
+        }
+
+        public IActionResult Delete(int? id)
+        {
+            Console.WriteLine("delete1");
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+
+            var categoryObj = dbContext.Categories.Find(id);
+            return View(categoryObj);
+        }
+
+        // DELETE: /<controller>/
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(Category obj)
+        {
+            
+            Console.WriteLine("Delete2");
+            dbContext.Categories.Remove(obj);
+            dbContext.SaveChanges();
+            Console.WriteLine("Delete2");
+            return RedirectToAction("Index");
+
+        }
+
     }
+
 }
 
