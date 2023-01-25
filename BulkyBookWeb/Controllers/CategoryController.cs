@@ -50,6 +50,7 @@ namespace BulkyBookWeb.Controllers
             {
                 dbContext.Categories.Add(obj);
                 dbContext.SaveChanges();
+                TempData["success"] = "Catgeory created successfully";
                 return RedirectToAction("Index");
 
             }
@@ -86,6 +87,7 @@ namespace BulkyBookWeb.Controllers
             {
                 dbContext.Categories.Update(obj);
                 dbContext.SaveChanges();
+                TempData["success"] = "Catgeory updated successfully";
                 return RedirectToAction("Index");
 
             }
@@ -118,6 +120,7 @@ namespace BulkyBookWeb.Controllers
             Console.WriteLine("Delete2");
             dbContext.Categories.Remove(obj);
             dbContext.SaveChanges();
+            TempData["success"] = "Catgeory deleted successfully";
             Console.WriteLine("Delete2");
             return RedirectToAction("Index");
 
