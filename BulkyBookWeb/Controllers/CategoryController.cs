@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BulkyBook.DataAccess;
+using BulkyBook.DataAccess.Repository.IRepository;
 using BulkyBook.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,19 +13,19 @@ namespace BulkyBookWeb.Controllers
 {
     public class CategoryController : Controller
     {
-        private readonly ApplicationDbContext dbContext;
+        private readonly IUnitOfWork _unitOfWork;
 
 
-        public CategoryController(ApplicationDbContext db)
+        public CategoryController(IUnitOfWork unitOfWork)
         {
-            dbContext = db;
+            _unitOfWork = unitOfWork;
         }
 
 
         // GET: /<controller>/
         public IActionResult Index()
         {
-            IEnumerable<Category> categoriesList = dbContext.Categories;
+            IEnumerable<Category> categoriesList = _unitOfWork.Category.GetAll();
             Console.WriteLine("2here");
             return View(categoriesList);
         }
@@ -48,8 +49,8 @@ namespace BulkyBookWeb.Controllers
             }
            if(ModelState.IsValid)
             {
-                dbContext.Categories.Add(obj);
-                dbContext.SaveChanges();
+                _unitOfWork.Category.Add(obj);
+                _unitOfWork.Save();
                 TempData["success"] = "Catgeory created successfully";
                 return RedirectToAction("Index");
 
@@ -70,7 +71,7 @@ namespace BulkyBookWeb.Controllers
                 return NotFound();
             }
 
-            var categoryObj = dbContext.Categories.Find(id);
+            var categoryObj = _unitOfWork.Category.GetFirstOrDefault(u=>u.Id==id);
             return View(categoryObj);
         }
 
@@ -85,8 +86,8 @@ namespace BulkyBookWeb.Controllers
             }
            if(ModelState.IsValid)
             {
-                dbContext.Categories.Update(obj);
-                dbContext.SaveChanges();
+                _unitOfWork.Category.Update(obj);
+                _unitOfWork.Save();
                 TempData["success"] = "Catgeory updated successfully";
                 return RedirectToAction("Index");
 
@@ -107,7 +108,7 @@ namespace BulkyBookWeb.Controllers
                 return NotFound();
             }
 
-            var categoryObj = dbContext.Categories.Find(id);
+            var categoryObj = _unitOfWork.Category.GetFirstOrDefault(u=>u.Id==id);
             return View(categoryObj);
         }
 
@@ -118,8 +119,8 @@ namespace BulkyBookWeb.Controllers
         {
             
             Console.WriteLine("Delete2");
-            dbContext.Categories.Remove(obj);
-            dbContext.SaveChanges();
+            _unitOfWork.Category.Remove(obj);
+            _unitOfWork.Save();
             TempData["success"] = "Catgeory deleted successfully";
             Console.WriteLine("Delete2");
             return RedirectToAction("Index");
