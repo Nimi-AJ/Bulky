@@ -21,6 +21,16 @@ namespace BulkyBook.DataAccess
         {
             get; set;
         }
+
+        public DbSet<Product> Products
+        {
+            get; set;
+        }
+
+        public DbSet<Crod> Crods
+        {
+            get; set;
+        }
     }
 }
 
