@@ -23,9 +23,21 @@ namespace BulkyBook.DataAccess.Repository
             if(objFromDb != null)
             {
                 objFromDb.Title = obj.Title;
-                objFromDb.Title = obj.Title;
-                objFromDb.Title = obj.Title;
-                objFromDb.Title = obj.Title;
+                objFromDb.ISBN = obj.ISBN;
+                objFromDb.Description = obj.Description;
+                objFromDb.Author = obj.Author;
+                objFromDb.Name = obj.Name;
+                objFromDb.ListPrice = obj.ListPrice;
+                objFromDb.Price = obj.Price;
+                objFromDb.Price50 = obj.Price50;
+                objFromDb.Price100 = obj.Price100;
+                objFromDb.CategoryId = obj.CategoryId;
+                objFromDb.CoverTypeId = obj.CoverTypeId;
+
+                if(obj.ImageUrl != null)
+                {
+                    objFromDb.ImageUrl = obj.ImageUrl;
+                }
             }
         }
     }

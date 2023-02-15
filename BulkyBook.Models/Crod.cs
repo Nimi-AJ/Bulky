@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BulkyBook.Models
 {
-	public class Product
+	public class Crod
 	{
 		//public Category()
 		//{

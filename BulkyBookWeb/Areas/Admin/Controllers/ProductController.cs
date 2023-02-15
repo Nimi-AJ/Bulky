@@ -6,18 +6,19 @@ using BulkyBook.DataAccess;
 using BulkyBook.DataAccess.Repository.IRepository;
 using BulkyBook.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace BulkyBookWeb.Controllers
 {
     [Area("Admin")]
-    public class CoverTypeController : Controller
+    public class ProductController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
 
 
-        public CoverTypeController(IUnitOfWork unitOfWork)
+        public ProductController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
@@ -26,9 +27,9 @@ namespace BulkyBookWeb.Controllers
         // GET: /<controller>/
         public IActionResult Index()
         {
-            IEnumerable<CoverType> coverTypeList = _unitOfWork.CoverType.GetAll();
+            IEnumerable<Product> productList = _unitOfWork.Product.GetAll();
             Console.WriteLine("2here");
-            return View(coverTypeList);
+            return View(productList);
         }
 
         // GET: /<controller>/
@@ -64,16 +65,40 @@ namespace BulkyBookWeb.Controllers
             return View(obj);
         }
 
-        public IActionResult Edit(int? id)
+        public IActionResult Upsert(int? id)
         {
+            Product product = new();
             Console.WriteLine("1here");
-            if(id == null || id == 0)
+            IEnumerable<SelectListItem> CategoryList = _unitOfWork.Category.GetAll().Select(
+                u => new SelectListItem
+                {
+                    Text = u.Name,
+                    Value = u.Id.ToString()
+                }
+
+                );
+            IEnumerable<SelectListItem> CoverTypeList = _unitOfWork.CoverType.GetAll().Select(
+                u => new SelectListItem
+                {
+                    Text = u.Name,
+                    Value = u.Id.ToString()
+                }
+
+                );
+
+            ViewBag.CategoryList = CategoryList;
+            ViewBag.CoverTypeList = CoverTypeList;
+
+            if (id == null || id == 0)
             {
-                return NotFound();
+                return View(product);
+            } else
+            {
+
             }
 
             var coverTypeObj = _unitOfWork.CoverType.GetFirstOrDefault(u=>u.Id==id);
-            return View(coverTypeObj);
+            return View(product);
         }
 
         // PUT: /<controller>/
