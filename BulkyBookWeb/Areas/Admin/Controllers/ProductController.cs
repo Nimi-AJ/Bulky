@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using BulkyBook.DataAccess;
 using BulkyBook.DataAccess.Repository.IRepository;
 using BulkyBook.Models;
+using BulkyBook.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -67,44 +68,57 @@ namespace BulkyBookWeb.Controllers
 
         public IActionResult Upsert(int? id)
         {
-            Product product = new();
-            Console.WriteLine("1here");
-            IEnumerable<SelectListItem> CategoryList = _unitOfWork.Category.GetAll().Select(
-                u => new SelectListItem
+            ProductVM productVM = new()
+            {
+                Product = new(),
+                CategoryList = _unitOfWork.Category.GetAll().Select(u => new SelectListItem
                 {
                     Text = u.Name,
                     Value = u.Id.ToString()
-                }
-
-                );
-            IEnumerable<SelectListItem> CoverTypeList = _unitOfWork.CoverType.GetAll().Select(
-                u => new SelectListItem
-                {
+                }),
+                CoverTypeList = _unitOfWork.CoverType.GetAll().Select(u => new SelectListItem {
                     Text = u.Name,
                     Value = u.Id.ToString()
-                }
+                })
+            };
+            //Product product = new();
+            //Console.WriteLine("1here");
+            //IEnumerable<SelectListItem> CategoryList = _unitOfWork.Category.GetAll().Select(
+            //    u => new SelectListItem
+            //    {
+            //        Text = u.Name,
+            //        Value = u.Id.ToString()
+            //    }
 
-                );
+            //    );
+            //IEnumerable<SelectListItem> CoverTypeList = _unitOfWork.CoverType.GetAll().Select(
+            //    u => new SelectListItem
+            //    {
+            //        Text = u.Name,
+            //        Value = u.Id.ToString()
+            //    }
 
-            ViewBag.CategoryList = CategoryList;
-            ViewBag.CoverTypeList = CoverTypeList;
+            //    );
+
+            //ViewBag.CategoryList = CategoryList;
+            //ViewBag.CoverTypeList = CoverTypeList;
 
             if (id == null || id == 0)
             {
-                return View(product);
+                return View(productVM);
             } else
             {
 
             }
 
             var coverTypeObj = _unitOfWork.CoverType.GetFirstOrDefault(u=>u.Id==id);
-            return View(product);
+            return View(productVM);
         }
 
         // PUT: /<controller>/
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(CoverType obj)
+        public IActionResult Upsert(ProductVM obj, IFormFile file)
         {
             //if(obj.Name == obj.DisplayOrder.ToString())
             //{
@@ -112,7 +126,7 @@ namespace BulkyBookWeb.Controllers
             //}
            if(ModelState.IsValid)
             {
-                _unitOfWork.CoverType.Update(obj);
+
                 _unitOfWork.Save();
                 TempData["success"] = "Cover Type updated successfully";
                 return RedirectToAction("Index");

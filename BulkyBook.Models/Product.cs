@@ -27,8 +27,8 @@ namespace BulkyBook.Models
         [Required]
         public string Author { get; set; }
 
-		[Required]
-		public string Name { get; set; }
+		//[Required]
+		//public string Name { get; set; }
 
         [Required]
         [Range(1, 10000)]
