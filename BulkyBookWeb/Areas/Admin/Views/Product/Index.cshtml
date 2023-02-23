@@ -16,27 +16,31 @@
             <a asp-area="Admin" asp-controller="Product" asp-action="Upsert" class="btn btn-primary mx-2"><i class="bi bi-plus-circle"></i> &nbsp; Create New Product</a>
         </div>
     </div>
+    <table class="table table-bordered table-striped" style="width:100%">
+        <thead>
+            <tr>
+                <th>
+                    Title
+                </th>
+                <th>
+                    ISBN
+                </th>
+                <th>
+                    Price
+                </th>
+                <th>
+                    Author
+                </th>
+                <th>
+                    Category
+                </th>
+            </tr>
+        </thead>
+    </table>
 </div>
 
-<table class="table table-bordered table-striped" style="width:100%">
-    <thead>
-        <tr>
-            <th>
-                Title
-            </th>
-            <th>
-                ISBN
-            </th>
-            <th>
-                Price
-            </th>
-            <th>
-                Author
-            </th>
-            <th>
-                Category
-            </th>
-        </tr>
-    </thead>
-</table>
+@section Scripts{
+    
+}
+
 

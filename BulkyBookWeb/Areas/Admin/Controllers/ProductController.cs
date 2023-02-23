@@ -30,9 +30,8 @@ namespace BulkyBookWeb.Controllers
         // GET: /<controller>/
         public IActionResult Index()
         {
-            IEnumerable<Product> productList = _unitOfWork.Product.GetAll();
-            Console.WriteLine("2here");
-            return View(productList);
+          
+            return View();
         }
 
         // GET: /<controller>/
@@ -139,7 +138,7 @@ namespace BulkyBookWeb.Controllers
                     {
                         file.CopyTo(fileStreams);
                     }
-                    obj.Product.ImageUrl = @"\images\products" + fileName + extension;
+                    obj.Product.ImageUrl = @"\images\products\" + fileName + extension;
                 }
 
                 _unitOfWork.Product.Add(obj.Product);
@@ -186,6 +185,19 @@ namespace BulkyBookWeb.Controllers
             return RedirectToAction("Index");
 
         }
+
+
+
+        #region API CALLS
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            var productList = _unitOfWork.Product.GetAll();
+
+            return Json(new { data = productList });
+        }
+        #endregion
+
 
     }
 

@@ -29,12 +29,34 @@ namespace BulkyBook.DataAccess.Repository
             return query.ToList();
         }
 
+        public IEnumerable<T> GetAll(string includeProps)
+        {
+            IQueryable<T> query = dbSet;
+            foreach (var includeProp in includeProps.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                query = query.Include(includeProp);
+            }
+
+            return query.ToList();
+        }
+
         public T GetFirstOrDefault(Expression<Func<T, bool>> filter)
         {
             IQueryable<T> query = dbSet;
             query = query.Where(filter);
 
 
+            return query.FirstOrDefault();
+        }
+
+        public T GetFirstOrDefault(Expression<Func<T, bool>> filter, string includeProps)
+        {
+            IQueryable<T> query = dbSet;
+            query = query.Where(filter);
+            foreach (var includeProp in includeProps.Split(new char[] {','}, StringSplitOptions.RemoveEmptyEntries))
+            {
+                query = query.Include(includeProp);
+            }
             return query.FirstOrDefault();
         }
 

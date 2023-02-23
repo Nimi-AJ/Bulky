@@ -100,7 +100,15 @@
         function ValidateInput() {
             if (document.getElementById("uploadBox").value = "") {
                 //swl
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Please upload an image',
+
+                })
                 return false;
+            } else {
+                return true;
             }
             return true;
         }
