@@ -9,9 +9,13 @@ namespace BulkyBook.DataAccess.Repository.IRepository
 
 		T GetFirstOrDefault(Expression<Func<T, bool>> filter);
 
-		IEnumerable<T> GetAll();
+        T GetFirstOrDefault(Expression<Func<T, bool>> filter, string includeProps);
 
-		void Add(T entity);
+        IEnumerable<T> GetAll();
+
+        IEnumerable<T> GetAll(string includeProps);
+
+        void Add(T entity);
 
 		void Remove(T entity);
 
