@@ -27,7 +27,7 @@ function loadDataTable() {
 
 
                    <div class="w-85 btn-group " role="group">
-                       <a class="btn btn-danger mx-2" href="/Admin/Product/Delete?id=${data}" ><i class="bi bi-trash3-fill"></i>Delete</a>
+                       <a class="btn btn-danger mx-2" onClick=Delete('/Admin/Product/DeleteProduct/${data}')  ><i class="bi bi-trash3-fill"></i>Delete</a>
                    </div>
  
                           
@@ -37,4 +37,31 @@ function loadDataTable() {
             }
         ]
     });
+}
+
+function delete (url){
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: url,
+                type: 'DELETE',
+                success: function (data) {
+                    if (data.success) {
+                        dataTable.ajax.reload();
+                        toastr.success(data.message);
+                    } else {
+                        toastr.error(data.message);
+                    }
+                }
+            })
+        }
+    })
 }

@@ -1,4 +1,4 @@
-﻿using System;
+﻿ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -213,6 +213,38 @@ namespace BulkyBookWeb.Controllers
             var productList = _unitOfWork.Product.GetAll(includeProps:"Category,CoverType");
 
             return Json(new { data = productList });
+        }
+
+        [HttpDelete]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteProduct(int id)
+        {
+            //if(id == null || id == 0)
+            //{
+                                
+            //}
+
+            Product obj = _unitOfWork.Product.GetFirstOrDefault(u => u.Id == id);
+            if(obj == null)
+            {
+                return Json(new { success = false, message = "Error while deleting" });
+            }
+            string? imgUrl= obj.ImageUrl;
+
+            _unitOfWork.Product.Remove(obj);
+            _unitOfWork.Save();
+            if (imgUrl != null)
+            {
+                var oldImagePath = Path.Combine(_hostEnvironment.WebRootPath, imgUrl.TrimStart('\\'));
+
+                if (System.IO.File.Exists(oldImagePath))
+                {
+                    System.IO.File.Delete(oldImagePath);
+                }
+            }
+
+            return Json(new { success = true, message = "Delete successful" });
+
         }
         #endregion
 
