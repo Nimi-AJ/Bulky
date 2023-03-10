@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using BulkyBook.Models;
 using BulkyBook.DataAccess.Repository.IRepository;
+using BulkyBook.Models.ViewModels;
 
 namespace BulkyBookWeb.Controllers;
 
@@ -22,6 +23,18 @@ public class HomeController : Controller
     {
         IEnumerable<Product> productList = _unitOfWork.Product.GetAll(includeProps: "Category,CoverType");
         return View(productList);
+    }
+
+    public IActionResult Details(int id)
+    {
+        ShoppingCart cartObj = new()
+        {
+            Product = _unitOfWork.Product.GetFirstOrDefault(u => u.Id == id, includeProps: "Category,CoverType"),
+            Count = 1
+        };
+        
+        
+        return View(cartObj);
     }
 
     public IActionResult Privacy()
