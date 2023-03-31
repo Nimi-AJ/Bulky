@@ -1,11 +1,22 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+
 namespace BulkyBook.Models
 {
-	public class ApplicationUser
+	public class ApplicationUser : IdentityUser
 	{
-		public ApplicationUser()
-		{
-		}
-	}
+		[Required]
+		public string Name { get; set; }
+
+		public string? StreetAddress { get; set; }
+
+        public string? City { get; set; }
+
+        public string? State { get; set; }
+
+        public string? PostalCode { get; set; }
+
+
+    }
 }
 
