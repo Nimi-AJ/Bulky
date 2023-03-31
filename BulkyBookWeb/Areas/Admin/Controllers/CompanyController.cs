@@ -33,6 +33,24 @@ namespace BulkyBookWeb.Controllers
             return View();
         }
 
+        // GET: /<controller>/
+        public IActionResult Upsert(int? id)
+        {
+            //if(obj.Name == obj.DisplayOrder.ToString())
+            //{
+            //    ModelState.AddModelError("name", "Display Order cannot match the name");
+            //}
+
+            Company obj = new();
+            if(id == null || id == 0)
+            {
+                return View(obj);
+            }
+
+            obj = _unitOfWork.Company.GetFirstOrDefault(u => u.Id == id);
+            return View(obj);
+        }
+
         // POST: /<controller>/
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -42,6 +60,8 @@ namespace BulkyBookWeb.Controllers
             //{
             //    ModelState.AddModelError("name", "Display Order cannot match the name");
             //}
+
+            
            if(ModelState.IsValid)
             {
                      
