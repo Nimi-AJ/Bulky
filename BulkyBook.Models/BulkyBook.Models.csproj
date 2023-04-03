@@ -12,11 +12,13 @@
   <ItemGroup>
     <None Remove="ViewModels\" />
     <None Remove="Microsoft.AspNetCore.Mvc.ViewFeatures" />
+    <None Remove="Microsoft.Extensions.Identity.Stores" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ViewModels\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="7.0.4" />
   </ItemGroup>
 </Project>
